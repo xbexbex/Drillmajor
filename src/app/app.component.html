@@ -1,6 +1,8 @@
-<h1>Tetsi</h1>
-
-<ul>
-  <li *ngFor="let user of users">{{ user.username }}</li>
-</ul>
-
+<div>
+    <mat-sidenav-container>
+        <mat-sidenav>
+            <!-- sidenav content -->
+        </mat-sidenav>
+        <router-outlet></router-outlet>
+    </mat-sidenav-container>
+</div>
