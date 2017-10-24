@@ -1,2 +1,3 @@
 # drillmajor
-a game for memorizing the major system
+A game for memorizing the mnemonic major system.
+Powered by Node + Express + Postgres + Angular 4 + Material.
