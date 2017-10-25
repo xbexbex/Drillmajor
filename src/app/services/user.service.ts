@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -21,27 +20,6 @@ export class UserService {
     if (localStorage.getItem('currentUser')) {
       return true;
     }
-  }
-
-  loginOld(username: string, password: string): Observable<boolean> {
-    return this.http.post('api/authenticate', JSON.stringify({ username: username, password: password }))
-      .map((response: Response) => {
-        // login successful if there's a jwt token in the response
-        const token = response.json() && response.json().token;
-        if (token) {
-          // set token property
-          this.token = token;
-          const userId = response.json().userId;
-          const userName = response.json().userName;
-          // store userId and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify({ userId: userId, userName: userName, token: token }));
-          // return true to indicate successful login
-          return true;
-        } else {
-          // return false to indicate failed login
-          return false;
-        }
-      });
   }
 
   async login(username: string, password: string): Promise<boolean> {
