@@ -16,46 +16,34 @@ export class UserService {
       .map(res => res.json());
   }
 
-  isValid() {
-    if (localStorage.getItem('currentUser')) {
-      return true;
+  async login(username: string, password: string): Promise<number> {
+    try {
+      const response = await this.http.post('api/user/login', { username: username, password: password }).toPromise();
+      const token = response.json() && response.json().token;
+      if (token) {
+        this.token = token;
+        localStorage.setItem('currentUser', JSON.stringify({ token: token }));
+      }
+      return response.json().status;
+    } catch (err) {
+      console.log(err);
     }
+    return 500;
   }
 
-  async login(username: string, password: string): Promise<boolean> {
-    const response = await this.http.post('api/user/login', { username: username, password: password }).toPromise();
-    const token = response.json() && response.json().token;
-    if (token) {
-      // set token property
-      this.token = token;
-      const userId = response.json().userId;
-      const userName = response.json().userName;
-      // store userId and jwt token in local storage to keep user logged in between page refreshes
-      localStorage.setItem('currentUser', JSON.stringify({ userId: userId, userName: userName, token: token }));
-      // return true to indicate successful login
-      return true;
-    } else {
-      // return false to indicate failed login
-      return false;
+  async register(username: string, password: string): Promise<number> {
+    try {
+      const response = await this.http.post('api/user/register', { username: username, password: password }).toPromise();
+      const token = response.json() && response.json().token;
+      if (token) {
+        this.token = token;
+        localStorage.setItem('currentUser', JSON.stringify({ token: token }));
+      }
+      return response.json().status;
+    } catch (err) {
+      console.log(err);
     }
-  }
-
-  async register(username: string, password: string): Promise<boolean> {
-    const response = await this.http.post('api/user/register', { username: username, password: password }).toPromise();
-    const token = response.json() && response.json().token;
-    if (token) {
-      // set token property
-      this.token = token;
-      const userId = response.json().userId;
-      const userName = response.json().userName;
-      // store userId and jwt token in local storage to keep user logged in between page refreshes
-      localStorage.setItem('currentUser', JSON.stringify({ userId: userId, userName: userName, token: token }));
-      // return true to indicate successful login
-      return true;
-    } else {
-      // return false to indicate failed login
-      return false;
-    }
+    return 500;
   }
 
   async getMems() {
@@ -65,15 +53,33 @@ export class UserService {
     }
   }
 
-  async checkAvailable(username: string) {
+  async checkAvailable(username: string): Promise<boolean> {
     try {
       const response = await this.http.get('api/user/available', {
-        params: {username: username}}).toPromise();
+        params: { username: username }
+      }).toPromise();
       if (response.json().status === 200) {
         return true;
       }
     } catch (err) {
-      return err;
+      console.log(err);
+    }
+    return false;
+  }
+
+  async authenticate(): Promise<boolean> {
+    try {
+      if (localStorage.getItem('currentUser')) {
+        const response = await this.http.get('api/user/authenticate', {
+          params: { Authorization: 'Bearer ' + localStorage.getItem('currentUser') }
+        }).toPromise();
+        if (response.json().status === 200) {
+          console.log(response.json().message);
+          return true;
+        }
+      }
+    } catch (err) {
+      console.log(err);
     }
     return false;
   }

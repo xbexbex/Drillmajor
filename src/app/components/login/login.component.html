@@ -1,36 +1,36 @@
 <div class="login-container">
   <mat-tab-group [(selectedIndex)]="selectedIndex" mat-stretch-tabs="always">
     <mat-tab label="Log in">
-      <form [formGroup]="logIn">
+      <form [formGroup]="logInForm">
         <div class="tab-form">
           <mat-form-field>
             <input #username matInput placeholder="Username" formControlName="username" spellcheck="false">
-            <mat-error *ngIf="logIn.get('username').invalid">{{ getUsernameErrorMessage() }}</mat-error>
+            <mat-error *ngIf="logInForm.get('username').invalid">{{ getUsernameErrorMessage() }}</mat-error>
           </mat-form-field>
           <mat-form-field>
             <input #password matInput placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'">
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-            <mat-error *ngIf="logIn.get('password').invalid">{{ getPasswordErrorMessage() }}</mat-error>
+            <mat-error *ngIf="logInForm.get('password').invalid">{{ getPasswordErrorMessage() }}</mat-error>
           </mat-form-field>
         </div>
       </form>
     </mat-tab>
     <mat-tab label="Sign up">
-      <form [formGroup]="signUp">
+      <form [formGroup]="signUpForm">
         <div class="tab-form">
           <mat-form-field>
             <input #newUsername matInput placeholder="Username" spellcheck="false" formControlName="newUsername">
-            <mat-error *ngIf="signUp.get('newUsername').invalid">{{ getNewUsernameErrorMessage() }}</mat-error>
+            <mat-error *ngIf="signUpForm.get('newUsername').invalid">{{ getNewUsernameErrorMessage() }}</mat-error>
           </mat-form-field>
           <mat-form-field>
             <input #newPassword matInput placeholder="Password" formControlName="newPassword" [type]="hide2 ? 'password' : 'text'">
             <mat-icon matSuffix (click)="hide2 = !hide2">{{hide2 ? 'visibility' : 'visibility_off'}}</mat-icon>
-            <mat-error *ngIf="signUp.get('newPassword').invalid">{{ getNewPasswordErrorMessage() }}</mat-error>
+            <mat-error *ngIf="signUpForm.get('newPassword').invalid">{{ getNewPasswordErrorMessage() }}</mat-error>
           </mat-form-field>
           <mat-form-field>
             <input matInput placeholder="Confirm password" formControlName="confirmPassword" [type]="hide3 ? 'password' : 'text'">
             <mat-icon matSuffix (click)="hide3 = !hide3">{{hide3 ? 'visibility' : 'visibility_off'}}</mat-icon>
-            <mat-error *ngIf="signUp.get('confirmPassword').invalid">{{ getConfirmPasswordErrorMessage() }}</mat-error>
+            <mat-error *ngIf="signUpForm.get('confirmPassword').invalid">{{ getConfirmPasswordErrorMessage() }}</mat-error>
           </mat-form-field>
         </div>
       </form>
