@@ -15,6 +15,7 @@ INSERT INTO memsData VALUES
 ('07', 'sock'),
 ('08', 'safe'),
 ('09', 'soap'),
+('0', 'sea'),
 ('1', 'tie'),
 ('2', 'noah'),
 ('3', 'ma'),
