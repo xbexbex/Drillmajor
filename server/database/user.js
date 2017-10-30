@@ -67,11 +67,11 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 router.post('/login', async (req, res) => {
   if (req.body.username && req.body.password) {
-    const { rows } = await db.query('SELECT password, salt, publicKey FROM users WHERE username = $1', [req.body.username]);
+    const { rows } = await db.query('SELECT password, salt, public_key FROM users WHERE username = $1', [req.body.username]);
     if (rows[0]) {
       const password = hashPassword(req.body.password, rows[0].salt);
       if (password === rows[0].password) {
-        const payload = rows[0].publickey;
+        const payload = rows[0].public_key;
         const token = jwt.sign(payload, jwtOptions.secretOrKey);
         res.json({ status: 200, token: token });
       } else {
@@ -84,35 +84,51 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-  if (req.body.username && req.body.password) {
-    const salt = generateSalt();
-    const password = hashPassword(req.body.password, salt);
-    const { rows } = await db.query('SELECT username FROM users WHERE username = $1 LIMIT 1', [req.body.username]);
-    if (rows[0]) {
-      res.status(409).json({ message: "Username already taken" });
-    } else {
-      const { rows } = await db.query('INSERT INTO users (username, password, salt) VALUES ($1, $2, $3) RETURNING id, publicKey', [
-        req.body.username,
-        password,
-        salt
-      ]);
-      await db.query('INSERT INTO mems (id, name, user_id) SELECT id, name, $1 FROM memsData', [rows[0].id]);
-      const payload = rows[0].publickey;
-      const token = jwt.sign(payload, jwtOptions.secretOrKey);
-      res.json({ status: 200, token: token });
+  try {
+    if (req.body.username && req.body.password) {
+      const salt = generateSalt();
+      const password = hashPassword(req.body.password, salt);
+      const { rows } = await db.query('SELECT username FROM users WHERE username = $1 LIMIT 1', [req.body.username]);
+      if (rows[0]) {
+        res.status(409).json({ message: "Username already taken" });
+      } else {
+        const { rows } = await db.query('INSERT INTO users (username, password, salt) VALUES ($1, $2, $3) RETURNING id, public_key', [
+          req.body.username,
+          password,
+          salt
+        ]);
+        await db.query('INSERT INTO mems (id, name, user_id) SELECT id, name, $1 FROM mems_data', [rows[0].id]);
+        const payload = rows[0].public_key;
+        const token = jwt.sign(payload, jwtOptions.secretOrKey);
+        res.json({ status: 200, token: token });
+      }
     }
+  } catch (err) {
+    console.log(err)
   }
+  res.status(500);
 });
 
-router.get('/available', async (req, res) => {
-  const username = req.query.username;
-  const { rows } = await db.query('SELECT username FROM users WHERE username = $1 LIMIT 1', [username]);
-  if (rows[0]) {
-    res.status(409).json({ message: "Username taken" });
-  } else {
-    res.json({status: 200, message: "Username available" });
+
+router.get('/mems', async (req, res) => {
+  try {
+    const token = jwt.decode(req.query.token);
+    var { rows } = await db.query('SELECT id FROM users WHERE public_key = $1 LIMIT 1', [token]);
+    if (!rows[0]) {
+      res.status(404).json({ message: "Invalid token" });
+    } else {
+      id = rows[0].id;
+      var { rows } = await db.query('SELECT name, best_time, last_time, index FROM mems WHERE user_id = $1', [id]);
+      if (rows[0]) {
+        res.status(200).json(rows);
+      }
+    }
+  } catch (err) {
+    console.log(err);
   }
+  res.status(500).json({ message: "Something went wrong" });
 });
+
 
 router.get('/authenticate', passport.authenticate('jwt', { session: false }), async (req, res) => {
   res.status(200).json({ message: "Authentication succesfull" });
@@ -121,4 +137,9 @@ router.get('/authenticate', passport.authenticate('jwt', { session: false }), as
 router.get('/test', async (req, res) => {
   console.log('meme');
   res.json({ status: 200, message: "el hefe" });
+});
+
+router.get('/memstest', async (req, res) => {
+  const token = req.query.token;
+  console.log(req.query.token);
 });

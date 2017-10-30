@@ -6,7 +6,6 @@ import 'rxjs/add/operator/map';
 export class UserService {
   public token: string;
   constructor(private http: Http) {
-    // set token if saved in local storage
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
   }
@@ -46,11 +45,19 @@ export class UserService {
     return 500;
   }
 
-  async getMems() {
-    if (localStorage.getItem('currentUser')) {
-      return this.http.get('api/users/mems')
-        .map(res => res.json());
+  async getMems(id: number): Promise<JSON> {
+    try {
+      const token = localStorage.getItem('currentUser');
+      const response = await this.http.get('api/user/mems', {
+        params: { token: token }
+      }).toPromise();
+      if (response.json().status === 200) {
+        return true;
+      }
+    } catch (err) {
+      console.log(err);
     }
+    return false;
   }
 
   async checkAvailable(username: string): Promise<boolean> {
@@ -74,7 +81,6 @@ export class UserService {
           params: { Authorization: 'Bearer ' + localStorage.getItem('currentUser') }
         }).toPromise();
         if (response.json().status === 200) {
-          console.log(response.json().message);
           return true;
         }
       }

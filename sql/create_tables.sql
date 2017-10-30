@@ -4,7 +4,7 @@ CREATE TABLE users (
 	email varchar(256), 
 	password varchar(256),
 	salt varchar(32),
-	publicKey uuid DEFAULT uuid_generate_v4()
+	public_key uuid DEFAULT uuid_generate_v4()
 );
 
 CREATE TABLE mems (
@@ -17,7 +17,7 @@ CREATE TABLE mems (
 	
 );
 
-CREATE TABLE memsData (
+CREATE TABLE mems_data (
 	id varchar(6) PRIMARY KEY NOT NULL,
 	name varchar(256)
 );
