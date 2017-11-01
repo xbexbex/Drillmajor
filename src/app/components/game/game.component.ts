@@ -10,12 +10,24 @@ import { UserService } from '../../services/user.service';
 export class GameComponent implements OnInit {
   title = 'app';
   message: string;
-
-  mems: Array<any>;
+  
+  mems: Array<Mem>;
   constructor(private userService: UserService) { }
-
+  
   async ngOnInit() {
-    this.message = await this.userService.getTestAsync();
+/*     const res = await this.userService.getMems();
+    res.results.forEach(element => {
+      list.push(element.Id);
+    }); */
+    console.log(await this.userService.getMems());
   }
+}
+  
+  interface Mem {
+    name: String;
+    number: Number;
+    index: Number;
+    lastTime: Number;
+    bestTIme: Number;
 }
 

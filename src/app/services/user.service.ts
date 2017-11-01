@@ -45,19 +45,18 @@ export class UserService {
     return 500;
   }
 
-  async getMems(id: number): Promise<JSON> {
+  async getMems(): Promise<JSON> {
     try {
-      const token = localStorage.getItem('currentUser');
       const response = await this.http.get('api/user/mems', {
-        params: { token: token }
+        params: { token: this.token }
       }).toPromise();
       if (response.json().status === 200) {
-        return true;
+        response.json().Results;
       }
     } catch (err) {
       console.log(err);
     }
-    return false;
+    return null;
   }
 
   async checkAvailable(username: string): Promise<boolean> {
@@ -77,9 +76,9 @@ export class UserService {
   async authenticate(): Promise<boolean> {
     try {
       if (localStorage.getItem('currentUser')) {
-        const response = await this.http.get('api/user/authenticate', {
-          params: { Authorization: 'Bearer ' + localStorage.getItem('currentUser') }
-        }).toPromise();
+        let headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + this.token);
+        const response = await this.http.get('api/user/authenticate', { headers: headers }).toPromise();
         if (response.json().status === 200) {
           return true;
         }
