@@ -108,7 +108,8 @@ export class GameComponent implements OnInit {
   currentMemIndex: number;
   memAmount: number;
   lastDate: number;
-  lastTime: number;
+  lastTime: string;
+  bestTime: string;
   turnForRandom = false;
   maximumMems = 111;
   gameMenuEnabled = true;
@@ -118,6 +119,10 @@ export class GameComponent implements OnInit {
   }
 
   async ngOnInit() {
+    let time = "asdf"
+    time = time.substr(0, time.length - 2) + ':' + time.substr(time.length - 2);
+    console.log(time);
+    console.log(time.slice(0, time.length - 3) + time.slice(time.length - 2));
     const res = await this.userService.getMems();
     this.mems = new Array<Mem>();
     let bestSum = 0;
@@ -214,20 +219,42 @@ export class GameComponent implements OnInit {
   }
 
   timerEnd() {
-    this.lastTime = '' + (Date.now() - this.lastDate) / 10;
-    const lastTimeNum = (Date.now() - this.lastDate) / 10;
+    const lastTimeNum = Math.round(Date.now() - this.lastDate);
+    this.lastTime = this.timeToString(lastTimeNum);
     this.currentMem = this.mems[this.currentMemIndex];
     if (this.currentMem.lastTime === -1) {
       this.memAmount++;
     } else if (this.currentMem.lastTime < this.currentMem.bestTime) {
-      this.mems[this.currentMemIndex].bestTime = this.lastTime;
+      this.mems[this.currentMemIndex].bestTime = lastTimeNum;
+      this.bestTime = this.lastTime;
+    } else {
+      this.bestTime = '' + this.currentMem.bestTime;
     }
-    this.mems[this.currentMemIndex].lastTime = this.lastTime;
+    this.mems[this.currentMemIndex].lastTime = lastTimeNum;
   }
 
   signOut() {
     this.userService.signOut();
     this.router.navigateByUrl('/login');
+  }
+
+  timeToString(time: number) {
+    let t = '' + time;
+    if (t.length > 2) {
+      t = t.substr(0, t.length - 2) + ':' + t.substr(t.length - 2);
+      if (t.length > 4) {
+        t = t.substr(0, t.length - 2) + ':' + t.substr(t.length - 2);
+      }
+    }
+    return t;
+  }
+
+  stringToTime(time: string) {
+    if (time.length > 2) {
+      time = time.slice(0, time.length - 3) + time.slice(time.length - 2);
+    } else {
+      return parseInt(time);
+    }
   }
 }
 
