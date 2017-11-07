@@ -15,6 +15,11 @@ export class UserService {
       .map(res => res.json());
   }
 
+  signOut() {
+    this.token = null;
+    localStorage.removeItem('currentUser');
+  }
+
   async login(username: string, password: string): Promise<number> {
     try {
       const response = await this.http.post('api/user/login', { username: username, password: password }).toPromise();
@@ -23,7 +28,7 @@ export class UserService {
         this.token = token;
         localStorage.setItem('currentUser', JSON.stringify({ token: token }));
       }
-      return response.json().status;
+      return response.status;
     } catch (err) {
       console.log(err);
     }
@@ -38,20 +43,20 @@ export class UserService {
         this.token = token;
         localStorage.setItem('currentUser', JSON.stringify({ token: token }));
       }
-      return response.json().status;
+      return response.status;
     } catch (err) {
       console.log(err);
     }
     return 500;
   }
 
-  async getMems(): Promise<JSON> {
+  async getMems(): Promise<Response> {
     try {
       const response = await this.http.get('api/user/mems', {
         params: { token: this.token }
       }).toPromise();
-      if (response.json().status === 200) {
-        response.json().Results;
+      if (response.status === 200) {
+        return response;
       }
     } catch (err) {
       console.log(err);
@@ -64,7 +69,7 @@ export class UserService {
       const response = await this.http.get('api/user/available', {
         params: { username: username }
       }).toPromise();
-      if (response.json().status === 200) {
+      if (response.status === 200) {
         return true;
       }
     } catch (err) {
@@ -76,10 +81,10 @@ export class UserService {
   async authenticate(): Promise<boolean> {
     try {
       if (localStorage.getItem('currentUser')) {
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Authorization', 'Bearer ' + this.token);
         const response = await this.http.get('api/user/authenticate', { headers: headers }).toPromise();
-        if (response.json().status === 200) {
+        if (response.status === 200) {
           return true;
         }
       }

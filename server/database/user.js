@@ -66,20 +66,25 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 router.post('/login', async (req, res) => {
-  if (req.body.username && req.body.password) {
-    const { rows } = await db.query('SELECT password, salt, public_key FROM users WHERE username = $1', [req.body.username]);
-    if (rows[0]) {
-      const password = hashPassword(req.body.password, rows[0].salt);
-      if (password === rows[0].password) {
-        const payload = rows[0].public_key;
-        const token = jwt.sign(payload, jwtOptions.secretOrKey);
-        res.json({ status: 200, token: token });
+  try {
+    if (req.body.username && req.body.password) {
+      const { rows } = await db.query('SELECT password, salt, public_key FROM users WHERE username = $1', [req.body.username]);
+      if (rows[0]) {
+        const password = hashPassword(req.body.password, rows[0].salt);
+        if (password === rows[0].password) {
+          const payload = rows[0].public_key;
+          const token = jwt.sign(payload, jwtOptions.secretOrKey);
+          res.status(200).json({token: token });
+        } else {
+          res.status(404).json({ message: "Wrong username or password" });
+        }
       } else {
         res.status(404).json({ message: "Wrong username or password" });
       }
-    } else {
-      res.status(404).json({ message: "Wrong username or password" });
     }
+  } catch (err) {
+    console.log(err);
+    res.status(500);
   }
 });
 
@@ -100,13 +105,13 @@ router.post('/register', async (req, res) => {
         await db.query('INSERT INTO mems (id, name, user_id) SELECT id, name, $1 FROM mems_data', [rows[0].id]);
         const payload = rows[0].public_key;
         const token = jwt.sign(payload, jwtOptions.secretOrKey);
-        res.json({ status: 200, token: token });
+        res.status(200).json({ token: token });
       }
     }
   } catch (err) {
     console.log(err)
+    res.status(500);
   }
-  res.status(500);
 });
 
 
@@ -118,15 +123,15 @@ router.get('/mems', async (req, res) => {
       res.status(404).json({ message: "Invalid token" });
     } else {
       id = rows[0].id;
-      var { rows } = await db.query('SELECT name, best_time, last_time, index FROM mems WHERE user_id = $1', [id]);
+      var { rows } = await db.query('SELECT id, name, best_time, last_time, index FROM mems WHERE user_id = $1 ORDER BY index ASC', [id]);
       if (rows[0]) {
-        res.status(200).json(rows);
+        res.status(200).json({ rows });
       }
     }
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "Something went wrong" });
   }
-  res.status(500).json({ message: "Something went wrong" });
 });
 
 
@@ -135,8 +140,7 @@ router.get('/authenticate', passport.authenticate('jwt', { session: false }), as
 });
 
 router.get('/test', async (req, res) => {
-  console.log('meme');
-  res.json({ status: 200, message: "el hefe" });
+  res.status(200).json({message: "stuff" });
 });
 
 router.get('/memstest', async (req, res) => {

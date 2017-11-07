@@ -11,12 +11,13 @@ import { TestComponent } from './components/test/test.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule,
-         MatInputModule,
-         MatButtonModule,
-         MatIconModule,
-         MatTabsModule,
-         MatProgressBarModule
+import {
+  MatFormFieldModule,
+  MatInputModule,
+  MatButtonModule,
+  MatIconModule,
+  MatTabsModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 @NgModule({

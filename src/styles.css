@@ -3,4 +3,12 @@
 
 body {
     color: white;
+    margin: 0;
+    min-width: 15rem;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    font-family: Roboto;
 }

@@ -11,9 +11,9 @@ CREATE TABLE mems (
 	id varchar(6),
 	user_id INTEGER REFERENCES users(id),
 	name varchar(256),
-	best_time NUMERIC(6, 2),
-	last_time NUMERIC(6, 2),
-	index NUMERIC (3, 2) DEFAULT 1
+	best_time NUMERIC(6, 2) DEFAULT -1,
+	last_time NUMERIC(6, 2) DEFAULT -1,
+	index NUMERIC (3, 2) DEFAULT 0
 	
 );
 

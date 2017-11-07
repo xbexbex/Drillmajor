@@ -1,3 +1,31 @@
-<p>
-  game works!
-</p>
+<div [@gameFlyIn]="gameState" [ngStyle]="{ 'z-index': gameZindex }" class="game-container">
+  <div class="mem-button-container">
+    <button mat-fab color="primary" (click)="openGameMenu(true)" [disabled]="gameDisabled" class="mem-button">{{buttonNumber}}</button>
+  </div>
+  <div class="help-button-container">
+    <button (click)="openGameMenu(false)" [disabled]="gameDisabled" class="help-button" mat-button color="accent">Show answer</button>
+  </div>
+</div>
+
+<div [@menuFlyIn]="menuState" [ngStyle]="{ 'z-index': menuZindex }" class="menu-container">
+  <div class="menu-buttons-container">
+    <button (click)="openGame()" class="menu-button" [disabled]="menuDisabled" mat-raised-button color="primary">Start game</button>
+    <button (click)="signOut()" class="menu-button" [disabled]="menuDisabled" mat-raised-button color="primary">Sign out</button>
+  </div>
+</div>
+
+<div [@gameMenuFlyIn]="gameMenuState" [ngStyle]="{ 'z-index': gameMenuZindex }" class="game-menu-container">
+  <div class="game-text-container">
+    <h1 class="headline">{{currentMem.number}} = {{currentMem.name}}</h1>
+    <div class="time-container" [ngStyle]="{ 'display': timeDisplay }">
+      <h1 class="last-time">Time:
+        <span class="last-time-span">{{currentMem.lastTime}}</span>
+      </h1>
+      <h4 class="best-time">Best time: {{currentMem.bestTime}}</h4>
+    </div>
+  </div>
+  <div class="menu-buttons-container">
+    <button (click)="continueGame()" class="menu-button" [disabled]="gameMenuDisabled" mat-raised-button color="primary">Continue</button>
+    <button (click)="openMenu()" class="menu-exit-button" [disabled]="gameMenuDisabled" mat-button color="accent">Back to menu</button>
+  </div>
+</div>
