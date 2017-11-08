@@ -13,7 +13,7 @@ CREATE TABLE mems (
 	name varchar(256),
 	best_time NUMERIC(7) DEFAULT -1,
 	last_time NUMERIC(7) DEFAULT -1,
-	index NUMERIC (4) DEFAULT 0
+	index NUMERIC (7) DEFAULT 0
 	
 );
 

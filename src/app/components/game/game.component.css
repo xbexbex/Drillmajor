@@ -41,24 +41,24 @@
 }
 
 .headline {
-    font-size: 3rem;
+    font-size: 4rem;
     margin-bottom: 3rem;
 }
 
 .last-time {
     color: rgb(207, 205, 205);
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    line-height: 4rem;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    line-height: 2rem;
 }
 
 .last-time-span {
     color: white;
-    font-size: 4rem;
+    font-size: 3rem;
 }
 
 .best-time {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: gray;
     margin-bottom: 1rem;
 }

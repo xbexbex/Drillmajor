@@ -3,7 +3,7 @@
     <button mat-fab color="primary" (click)="openGameMenu(true)" [disabled]="gameDisabled" class="mem-button">{{buttonNumber}}</button>
   </div>
   <div class="help-button-container">
-    <button (click)="openGameMenu(false)" [disabled]="gameDisabled" class="help-button" mat-button color="accent">Show answer</button>
+    <button (click)="openGameMenu(false)" [disabled]="gameDisabled" class="help-button" mat-button color="accent">Give up</button>
   </div>
 </div>
 
@@ -21,7 +21,7 @@
       <h1 class="last-time">Time:
         <span class="last-time-span">{{lastTime}}</span>
       </h1>
-      <h4 class="best-time">Best time: {{bestTime}}</h4>
+      <h4 class="best-time">Best: {{bestTime}}</h4>
     </div>
   </div>
   <div class="menu-buttons-container">

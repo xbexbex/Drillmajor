@@ -103,7 +103,7 @@ export class GameComponent implements OnInit {
   gameZindex = 0;
   menuZindex = 1;
   gameMenuZindex = 0;
-  currentMem = <Mem>{number: '00', lastTime: 0, bestTime: 0, name: 'sauce'};
+  currentMem = <Mem>{ number: '00', lastTime: 0, bestTime: 0, name: 'sauce' };
   buttonNumber: string;
   currentMemIndex: number;
   memAmount: number;
@@ -119,11 +119,12 @@ export class GameComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let time = "asdf"
-    time = time.substr(0, time.length - 2) + ':' + time.substr(time.length - 2);
-    console.log(time);
-    console.log(time.slice(0, time.length - 3) + time.slice(time.length - 2));
     const res = await this.userService.getMems();
+    if (res === null) {
+      this.userService.signOut();
+      this.router.navigateByUrl('/login');
+    }
+
     this.mems = new Array<Mem>();
     let bestSum = 0;
     let lastSum = 0;
@@ -142,6 +143,7 @@ export class GameComponent implements OnInit {
       }
       this.mems.push(iMem);
     });
+
     if (this.memAmount !== 0) {
       this.averageLastTime = lastSum / this.memAmount;
       this.averageBestTime = bestSum / this.memAmount;
@@ -218,19 +220,40 @@ export class GameComponent implements OnInit {
     this.turnForRandom = !this.turnForRandom;
   }
 
-  timerEnd() {
+  async timerEnd() {
     const lastTimeNum = Math.round(Date.now() - this.lastDate);
     this.lastTime = this.timeToString(lastTimeNum);
     this.currentMem = this.mems[this.currentMemIndex];
-    if (this.currentMem.lastTime === -1) {
+    if (this.currentMem.lastTime == -1) {
       this.memAmount++;
+      this.currentMem.bestTime = lastTimeNum;
+      this.bestTime = this.lastTime;
     } else if (this.currentMem.lastTime < this.currentMem.bestTime) {
-      this.mems[this.currentMemIndex].bestTime = lastTimeNum;
+      this.currentMem.bestTime = lastTimeNum;
       this.bestTime = this.lastTime;
     } else {
-      this.bestTime = '' + this.currentMem.bestTime;
+      this.bestTime = this.timeToString(this.currentMem.bestTime);
     }
-    this.mems[this.currentMemIndex].lastTime = lastTimeNum;
+    this.currentMem.lastTime = lastTimeNum;
+    this.averageLastTime = ((this.averageLastTime * (this.memAmount - 1)) + lastTimeNum) / this.memAmount; // still in progress
+    this.currentMem.index = Math.max(0, 9999999 - lastTimeNum);
+    this.mems.splice(this.currentMemIndex, 1);
+    const index = this.bsSearch(this.mems, this.currentMem.index);
+    this.mems.splice(index, 0, this.currentMem);
+    this.userService.depositMem(this.currentMem.index, this.currentMem.lastTime, this.currentMem.bestTime, this.currentMem.number);
+  }
+
+  bsSearch(mems, memIndex) {
+    const indices = [];
+    mems.forEach(mem => {
+      indices.push(mem.index);
+    });
+    const index = binarySearch.closest(indices, memIndex);
+    if (index === 0) {
+      return 1;
+    } else {
+      return index;
+    }
   }
 
   signOut() {
@@ -240,12 +263,15 @@ export class GameComponent implements OnInit {
 
   timeToString(time: number) {
     let t = '' + time;
+    t = t.substr(0, t.length - 1);
     if (t.length > 2) {
-      t = t.substr(0, t.length - 2) + ':' + t.substr(t.length - 2);
-      if (t.length > 4) {
-        t = t.substr(0, t.length - 2) + ':' + t.substr(t.length - 2);
-      }
+      t = t.substr(0, t.length - 2) + '.' + t.substr(t.length - 2);
+    } else {
+      t = '0.' + t;
     }
+    /*     if (t.length > 5) {
+          t = t.substr(0, t.length - 2) + ':' + t.substr(t.length - 4);
+        } */
     return t;
   }
 
@@ -253,7 +279,7 @@ export class GameComponent implements OnInit {
     if (time.length > 2) {
       time = time.slice(0, time.length - 3) + time.slice(time.length - 2);
     } else {
-      return parseInt(time);
+      return parseInt(time, 10);
     }
   }
 }

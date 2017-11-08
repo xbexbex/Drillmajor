@@ -74,7 +74,7 @@ router.post('/login', async (req, res) => {
         if (password === rows[0].password) {
           const payload = rows[0].public_key;
           const token = jwt.sign(payload, jwtOptions.secretOrKey);
-          res.status(200).json({token: token });
+          res.status(200).json({ token: token });
         } else {
           res.status(404).json({ message: "Wrong username or password" });
         }
@@ -114,6 +114,28 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.post('/updatememstime', async (req, res) => {
+  try {
+    const token = jwt.decode(req.body.token);
+    var { rows } = await db.query('SELECT id FROM users WHERE public_key = $1 LIMIT 1', [token]);
+    if (!rows[0]) {
+      res.status(404).json({ message: "Invalid token, data not saved" });
+    } else {
+      id = rows[0].id;
+      db.query('UPDATE mems SET best_time = $1, last_time = $2, index = $3 WHERE user_id = $4 AND id = $5', [
+        req.body.besttime,
+        req.body.lasttime,
+        req.body.index,
+        req.body.id,
+        id
+      ]);
+      res.status(200).json({ message: "Data updated" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+});
 
 router.get('/mems', async (req, res) => {
   try {
@@ -140,7 +162,7 @@ router.get('/authenticate', passport.authenticate('jwt', { session: false }), as
 });
 
 router.get('/test', async (req, res) => {
-  res.status(200).json({message: "stuff" });
+  res.status(200).json({ message: "stuff" });
 });
 
 router.get('/memstest', async (req, res) => {

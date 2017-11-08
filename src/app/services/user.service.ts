@@ -50,6 +50,22 @@ export class UserService {
     return 500;
   }
 
+  async depositMem(index: number, lastTime: number, bestTime: number, number: string): Promise<number> {
+    try {
+      const response = await this.http.post('api/user/updatememstime', {
+        token: this.token,
+        id: number,
+        lasttime: lastTime,
+        besttime: bestTime,
+        index: index
+      }).toPromise();
+      return response.status;
+    } catch (err) {
+      console.log(err);
+    }
+    return 500;
+  }
+
   async getMems(): Promise<Response> {
     try {
       const response = await this.http.get('api/user/mems', {
