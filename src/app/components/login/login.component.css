@@ -15,7 +15,7 @@
     flex-direction: column;
     width: 100%;
     margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 
   .tab-form > *{
@@ -32,6 +32,15 @@
     width: 100%;
   }
 
-  mat-form-field {
-    margin-top: 1em;
+  .mat-form-field {
+    margin-top: 0.4rem;
+  }
+
+  .login-button {
+    font-size: 1.4rem;
+  }
+
+  .big-error {
+    font-size: 1.2rem;
+    text-align: center;
   }

@@ -1,6 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
 
+.mat-tab-label {
+    font-size: 1.4rem
+}
+
+.tab-form > * {
+    width: 100%;
+    font-size: 1.3rem;
+}
+
+.mat-expansion-panel-header {
+    font-size: 1.3rem;
+}
+
+.mat-expansion-panel {
+}
+
+
 body {
     color: white;
     margin: 0;

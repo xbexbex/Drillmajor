@@ -1,3 +1,198 @@
-<div class="main-container mat-typography">
-    <router-outlet></router-outlet>
-</div>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav>
+        <div class="sidenav-container">
+            <div class="back-button-container">
+                <h1 class="title">Drillmajor</h1>
+                <a class="back-button" (click)="sidenav.close()">
+                    <mat-icon class="open-button-icon">close</mat-icon>
+                </a>
+            </div>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        What is this site?
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p class="expansion-text">Ever had trouble remembering numbers? Worry not, you are only a human, and Drillmajor is here to help. This simple game will teach
+                    you the
+                    <i>mnemonic major system</i>, and allow you to hone your skills and track your progress anywhere.
+                </p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        How to play?
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p class="expansion-text">
+                    Simply click the big red button when you remember what word is associated with the number. Click the back arrow to give up and to not store your time.
+                </p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        What is the major system?
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p class="expansion-text">As abstract symbols, numbers themselves are very difficult for the human mind to store. However, if you associated
+                    a more concrete object for each number, remembering even long strings of integers would be easy. For
+                    example, think of the number
+                    <b>007</b> and you might instantly imagine
+                    <b>James Bond</b>. You can think of this text a week 
+                    later, remember James Bond, and effortlessly also recall the number I used in this example: 007. The
+                    major system itself works by associating specific sounds to each digit between 0 and 9, so that you can
+                    systematically turn any number into words and any word into a number. It is quite powerful:
+                    For example
+                    <b>34729401215721110</b> translates to
+                    <b>American Presidential Candidates</b>. I wonder which one is easier to remember? 
+                    <br>
+                    <br>
+                    The sounds for each digit are the following:
+                </p>
+                <ul class="expansion-text">
+                    <li>0: S, Z or C sound</li>
+                    <li>1: T or D sound</li>
+                    <li>2: N sound</li>
+                    <li>3: M sound</li>
+                    <li>4: R sound</li>
+                    <li>5: L sound</li>
+                    <li>6: J, Sh, soft Ch or soft G sound</li>
+                    <li>7: K, C sound</li>
+                    <li>8: F or V sound</li>
+                    <li>9: B or P sound</li>
+                </ul>
+
+                <p class="expansion-text">To make numbers easier to remember on the fly, here is a list of words for each number from 0 to 100. Remembering
+                    each number - word pair will allow you to store and recall numbers inhumanly fast.</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        The list of words
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <ul class="expansion-text">
+                    <li>00: sauce</li>
+                    <li>01: soda</li>
+                    <li>02: sun</li>
+                    <li>03: swim</li>
+                    <li>04: sir</li>
+                    <li>05: seal</li>
+                    <li>06: sash</li>
+                    <li>07: sock</li>
+                    <li>08: safe</li>
+                    <li>09: soap</li>
+                    <li>0: sea</li>
+                    <li>1: tie</li>
+                    <li>2: noah</li>
+                    <li>3: ma</li>
+                    <li>4: ray</li>
+                    <li>5: law</li>
+                    <li>6: jaw</li>
+                    <li>7: key</li>
+                    <li>8: ufo</li>
+                    <li>9: bee</li>
+                    <li>10: toes</li>
+                    <li>11: dad</li>
+                    <li>12: tan</li>
+                    <li>13: dam</li>
+                    <li>14: deer</li>
+                    <li>15: tail</li>
+                    <li>16: dish</li>
+                    <li>17: duck</li>
+                    <li>18: dove</li>
+                    <li>19: tape</li>
+                    <li>20: nose</li>
+                    <li>21: net</li>
+                    <li>22: nun</li>
+                    <li>23: gnome</li>
+                    <li>24: nero</li>
+                    <li>25: nail</li>
+                    <li>26: nosh</li>
+                    <li>27: neck</li>
+                    <li>28: navy</li>
+                    <li>29: nap</li>
+                    <li>30: mouse</li>
+                    <li>31: mat</li>
+                    <li>32: moon</li>
+                    <li>33: memo</li>
+                    <li>34: mower</li>
+                    <li>35: mail</li>
+                    <li>36: mash</li>
+                    <li>37: mike</li>
+                    <li>38: mafia</li>
+                    <li>39: map</li>
+                    <li>40: rose</li>
+                    <li>41: rat</li>
+                    <li>42: rain</li>
+                    <li>43: ram</li>
+                    <li>44: rower</li>
+                    <li>45: reel</li>
+                    <li>46: rash</li>
+                    <li>47: rock</li>
+                    <li>48: roof</li>
+                    <li>49: robe</li>
+                    <li>50: lassie</li>
+                    <li>51: lady</li>
+                    <li>52: lion</li>
+                    <li>53: limo</li>
+                    <li>54: lorry</li>
+                    <li>55: lily</li>
+                    <li>56: leach</li>
+                    <li>57: lock</li>
+                    <li>58: leaf</li>
+                    <li>59: lip</li>
+                    <li>60: chess</li>
+                    <li>61: jet</li>
+                    <li>62: chain</li>
+                    <li>63: jam</li>
+                    <li>64: chair</li>
+                    <li>65: jail</li>
+                    <li>66: cha-cha</li>
+                    <li>67: shake</li>
+                    <li>68: chief</li>
+                    <li>69: jeep</li>
+                    <li>70: case</li>
+                    <li>71: cat</li>
+                    <li>72: can</li>
+                    <li>73: comb</li>
+                    <li>74: car</li>
+                    <li>75: coal</li>
+                    <li>76: case</li>
+                    <li>77: coke</li>
+                    <li>78: cave</li>
+                    <li>79: cab</li>
+                    <li>80: face</li>
+                    <li>81: fat</li>
+                    <li>82: fan</li>
+                    <li>83: foam</li>
+                    <li>84: fire</li>
+                    <li>85: foil</li>
+                    <li>86: fish</li>
+                    <li>87: fake</li>
+                    <li>88: woof-woof</li>
+                    <li>89: fbi</li>
+                    <li>90: bus</li>
+                    <li>91: bat</li>
+                    <li>92: bun</li>
+                    <li>93: bum</li>
+                    <li>94: bear</li>
+                    <li>95: ball</li>
+                    <li>96: beach</li>
+                    <li>97: back</li>
+                    <li>98: beef</li>
+                    <li>99: baby</li>
+                    <li>100: daisies</li>
+                </ul>
+            </mat-expansion-panel>
+        </div>
+    </mat-sidenav>
+    <div class="open-button-container">
+        <a class="open-button" (click)="sidenav.open()">
+            <mat-icon class="open-button-icon">help_outline</mat-icon>
+        </a>
+    </div>
+    <div id="main-container" class="mat-typography">
+        <router-outlet></router-outlet>
+    </div>
+</mat-sidenav-container>

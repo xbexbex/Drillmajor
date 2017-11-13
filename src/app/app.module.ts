@@ -17,7 +17,9 @@ import {
   MatButtonModule,
   MatIconModule,
   MatTabsModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatSidenavModule,
+  MatExpansionModule
 } from '@angular/material';
 
 @NgModule({
@@ -39,7 +41,9 @@ import {
     MatButtonModule,
     MatIconModule,
     MatTabsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSidenavModule,
+    MatExpansionModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

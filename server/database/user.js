@@ -4,7 +4,6 @@ const router = new Router();
 module.exports = router;
 
 const bodyParser = require('body-parser');
-const _ = require("lodash");
 const http = require('http');
 const jwt = require('jsonwebtoken');
 const passport = require("passport");
@@ -16,21 +15,6 @@ const request = require('request');
 const ExtractJwt = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
 
-//test array
-const users = [
-  {
-    id: 1,
-    username: 'asdf',
-    password: 'asdf'
-  },
-  {
-    id: 2,
-    username: 'test',
-    password: 'test'
-  }
-];
-
-// JWT login token
 const jwtOptions = {}
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = 'majorestOfSecrets';
@@ -50,7 +34,6 @@ function generateSalt() {
 }
 
 const strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
-  console.log('payload received', jwt_payload);
   if (jwt_payload) {
     next(null, true);
   } else {
@@ -60,7 +43,6 @@ const strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
 
 passport.use(strategy);
 
-// Parsers
 router.use(passport.initialize());
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -75,11 +57,9 @@ router.post('/login', async (req, res) => {
           const payload = rows[0].public_key;
           const token = jwt.sign(payload, jwtOptions.secretOrKey);
           res.status(200).json({ token: token });
-        } else {
-          res.status(404).json({ message: "Wrong username or password" });
         }
       } else {
-        res.status(404).json({ message: "Wrong username or password" });
+        res.status(201).json({ message: "Wrong username or password" });
       }
     }
   } catch (err) {
@@ -88,6 +68,17 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.get('/available', async (req, res) => {
+  const username = req.query.username;
+  const { rows } = await db.query('SELECT username FROM users WHERE username = $1 LIMIT 1', [username]);
+  if (rows[0]) {
+    res.json({ available: false });
+  } else {
+    res.json({ available: true });
+  }
+});
+
+
 router.post('/register', async (req, res) => {
   try {
     if (req.body.username && req.body.password) {
@@ -95,7 +86,7 @@ router.post('/register', async (req, res) => {
       const password = hashPassword(req.body.password, salt);
       const { rows } = await db.query('SELECT username FROM users WHERE username = $1 LIMIT 1', [req.body.username]);
       if (rows[0]) {
-        res.status(409).json({ message: "Username already taken" });
+        res.status(201).json({ message: "Username already taken" });
       } else {
         const { rows } = await db.query('INSERT INTO users (username, password, salt) VALUES ($1, $2, $3) RETURNING id, public_key', [
           req.body.username,
@@ -114,7 +105,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.post('/updatememstime', async (req, res) => {
+router.post('/mem/update', async (req, res) => {
   try {
     const token = jwt.decode(req.body.token);
     var { rows } = await db.query('SELECT id FROM users WHERE public_key = $1 LIMIT 1', [token]);
@@ -122,7 +113,7 @@ router.post('/updatememstime', async (req, res) => {
       res.status(404).json({ message: "Invalid token, data not saved" });
     } else {
       id = rows[0].id;
-      db.query('UPDATE mems SET best_time = $1, last_time = $2, index = $3 WHERE user_id = $4 AND id = $5', [
+      db.query('UPDATE mems SET best_time = $1, last_time = $2, index = $3 WHERE id = $4 AND user_id = $5', [
         req.body.besttime,
         req.body.lasttime,
         req.body.index,
@@ -137,7 +128,7 @@ router.post('/updatememstime', async (req, res) => {
   }
 });
 
-router.get('/mems', async (req, res) => {
+router.get('/mem/get', async (req, res) => {
   try {
     const token = jwt.decode(req.query.token);
     var { rows } = await db.query('SELECT id FROM users WHERE public_key = $1 LIMIT 1', [token]);
@@ -161,11 +152,11 @@ router.get('/authenticate', passport.authenticate('jwt', { session: false }), as
   res.status(200).json({ message: "Authentication succesfull" });
 });
 
-router.get('/test', async (req, res) => {
+/* router.get('/test', async (req, res) => {
   res.status(200).json({ message: "stuff" });
 });
 
 router.get('/memstest', async (req, res) => {
   const token = req.query.token;
   console.log(req.query.token);
-});
+}); */

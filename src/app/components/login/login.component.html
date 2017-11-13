@@ -1,8 +1,9 @@
 <div class="login-container">
-  <mat-tab-group [(selectedIndex)]="selectedIndex" mat-stretch-tabs="always">
+  <mat-tab-group (selectedTabChange)="onTabChange($event)" mat-stretch-tabs="always">
     <mat-tab label="Log in">
       <form [formGroup]="logInForm">
         <div class="tab-form">
+          <mat-error class="big-error">{{ error }}</mat-error>
           <mat-form-field>
             <input #username matInput placeholder="Username" formControlName="username" spellcheck="false">
             <mat-error *ngIf="logInForm.get('username').invalid">{{ getUsernameErrorMessage() }}</mat-error>
@@ -15,9 +16,10 @@
         </div>
       </form>
     </mat-tab>
-    <mat-tab label="Sign up">
+    <mat-tab style="font-size: 2rem" label="Sign up">
       <form [formGroup]="signUpForm">
         <div class="tab-form">
+          <mat-error class="big-error">{{ error }}</mat-error>
           <mat-form-field>
             <input #newUsername matInput placeholder="Username" spellcheck="false" formControlName="newUsername">
             <mat-error *ngIf="signUpForm.get('newUsername').invalid">{{ getNewUsernameErrorMessage() }}</mat-error>
@@ -36,9 +38,11 @@
       </form>
     </mat-tab>
   </mat-tab-group>
+  <mat-progress-bar class="progress-bar" color="primary" [mode]="progressMode" [style.visibility]="progressDisplay">
+  </mat-progress-bar>
   <div class="button-row">
-    <button mat-raised-button [disabled]="disabled" color="primary" (click)="continueClick()">Continue</button>
+    <button class="login-button" mat-raised-button [disabled]="disabled" color="primary" (click)="continueClick()">Continue</button>
   </div>
-  <mat-progress-bar class="progress-bar" [color]="primary" [mode]="intedeterminate">
+  <mat-progress-bar class="progress-bar" color="primary" [mode]="progressMode" hide="true" [style.visibility]="progressDisplay">
   </mat-progress-bar>
 </div>

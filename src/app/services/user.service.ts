@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -52,7 +53,7 @@ export class UserService {
 
   async depositMem(index: number, lastTime: number, bestTime: number, number: string): Promise<number> {
     try {
-      const response = await this.http.post('api/user/updatememstime', {
+      const response = await this.http.post('api/user/mem/update', {
         token: this.token,
         id: number,
         lasttime: lastTime,
@@ -68,7 +69,7 @@ export class UserService {
 
   async getMems(): Promise<Response> {
     try {
-      const response = await this.http.get('api/user/mems', {
+      const response = await this.http.get('api/user/mem/get', {
         params: { token: this.token }
       }).toPromise();
       if (response.status === 200) {
@@ -80,18 +81,10 @@ export class UserService {
     return null;
   }
 
-  async checkAvailable(username: string): Promise<boolean> {
-    try {
-      const response = await this.http.get('api/user/available', {
+  checkAvailable(username: string): Observable<any> {
+      return this.http.get('api/user/available', {
         params: { username: username }
-      }).toPromise();
-      if (response.status === 200) {
-        return true;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    return false;
+      }).map(res => res.json());
   }
 
   async authenticate(): Promise<boolean> {

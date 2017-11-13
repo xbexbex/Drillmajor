@@ -1,32 +1,13 @@
 import { Output, Input, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, ValidationErrors, AbstractControl, ValidatorFn } from '@angular/forms';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/timer';
+import { checkUsername, checkPasswords } from '../../misc/login.validators';
 
 const nameRegexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+$/;
 const pwRegexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+$/;
-
-// causes the input to flicker due to being async, should be fixed in Angular 5
-/* class UsernameValidator {
-  static checkUsername(userService: UserService) {
-
-    return async (control: FormControl) => {
-      const username = control.value;
-      try {
-        const notTaken = await userService.checkAvailable(username);
-        console.log(notTaken);
-        if (notTaken) {
-          control.setErrors(null);
-        } else {
-          return control.setErrors({ alreadyTaken: true });
-        }
-      } catch (err) {
-        console.log(err);
-        return control.setErrors(null);
-      }
-    };
-  }
-} */
 
 @Component({
   selector: 'app-login',
@@ -37,12 +18,14 @@ const pwRegexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+$/;
 export class LoginComponent implements OnInit {
   logInForm: FormGroup;
   signUpForm: FormGroup;
-  selectedIndex = 0;
+  firstTabActive = true;
   hide = true;
   hide2 = true;
   hide3 = true;
   disabled = false;
   error = '';
+  progressMode = 'indeterminate';
+  progressDisplay = 'hidden';
 
   constructor(private userService: UserService, private fb: FormBuilder, private router: Router) { }
 
@@ -55,30 +38,14 @@ export class LoginComponent implements OnInit {
     });
     this.signUpForm = this.fb.group({
       newUsername: ['', [
-        Validators.required, Validators.minLength(3), Validators.maxLength(256), Validators.nullValidator, Validators.pattern(nameRegexp)
-        /* , UsernameValidator.checkUsername(this.userService) */  //causes the input to flicker, should be fixed in Angular 5
-      ]],
+        Validators.required, Validators.minLength(3), Validators.maxLength(256), Validators.nullValidator, Validators.pattern(nameRegexp)],
+        [checkUsername(this.userService)]
+      ],
       newPassword: ['', [
         Validators.required, Validators.minLength(5), Validators.maxLength(256), Validators.nullValidator, Validators.pattern(pwRegexp)]],
       confirmPassword: ['',
         Validators.required]
-    }, { validator: this.checkPasswords('newPassword', 'confirmPassword') });
-  }
-
-  checkPasswords(password: string, confirmPassword: string) {
-    return (group: FormGroup) => {
-      const passwordInput = group.controls[password],
-        confirmPasswordInput = group.controls[confirmPassword];
-      if (passwordInput.value !== confirmPasswordInput.value) {
-        return confirmPasswordInput.setErrors({ notEquivalent: true });
-      } else {
-        return confirmPasswordInput.setErrors(null);
-      }
-    };
-  }
-
-  @Output() selectedIndexChange(val: number) {
-    this.selectedIndex = val;
+    }, { validator: checkPasswords('newPassword', 'confirmPassword') });
   }
 
   getUsernameErrorMessage() {
@@ -129,12 +96,19 @@ export class LoginComponent implements OnInit {
         '';
   }
 
+  onTabChange($event: any) {
+    this.error = '';
+    this.firstTabActive = !this.firstTabActive;
+  }
+
   async continueClick() {
-    if (this.selectedIndex === 0) {
+    this.progressDisplay = 'visible';
+    if (this.firstTabActive) {
       await this.logIn();
     } else {
       await this.signUp();
     }
+    this.progressDisplay = 'hidden';
   }
 
   async logIn() {
@@ -148,7 +122,7 @@ export class LoginComponent implements OnInit {
         if (status === 200) {
           this.router.navigate(['/']);
           return;
-        } else if (status === 404) {
+        } else if (status === 201) {
           this.disabled = false;
           this.error = 'Wrong username or password';
           return;
@@ -173,7 +147,7 @@ export class LoginComponent implements OnInit {
         if (status === 200) {
           this.router.navigate(['/']);
           return;
-        } else if (status === 409) {
+        } else if (status === 201) {
           this.disabled = false;
           this.error = 'Username already taken';
           return;

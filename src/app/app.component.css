@@ -1,7 +1,60 @@
-.main-container {
+#main-container {
     flex: 1;
     min-height: 0;
     width: 100vw;
     height: 100vh;
     justify-content: center;
+    overflow-y: auto;
+}
+
+.title {
+    margin-left: 1.5rem;
+}
+
+.open-button-container {
+    text-align: right;
+    max-width: 32rem;
+    margin: auto;
+}
+
+.back-button-container {
+    display: flex;
+    text-align: right;
+    margin: auto;
+    justify-content: space-between;
+}
+
+.back-button {
+    display:inline-block;
+    cursor: pointer;
+    color: rgb(184, 184, 184);
+    margin-top: 0.8rem;
+    margin-bottom: 2rem;
+    margin-right: 0.8rem;
+}
+
+.open-button {
+    display:inline-block;
+    cursor: pointer;
+    color: rgb(184, 184, 184);
+    margin-top: 0.8rem;
+    margin-right: 0.8rem;
+}
+
+.open-button-icon {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 32px;
+}
+
+.sidenav-container {
+    margin: auto;
+    padding-bottom: 4rem;
+    max-width: 96vw;
+}
+
+.expansion-text {
+    text-align: justify;
+    font-size: 1rem;
 }

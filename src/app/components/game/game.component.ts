@@ -1,92 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { Animations } from './game.animation';
 import binarySearch from 'binarysearch';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
-  animations: [
-    trigger('gameFlyIn', [
-      state('active', style({ opacity: 1, transform: 'translateX(0)' })),
-      state('inactive', style({ opacity: 0, transform: 'translateX(0)' })),
-      state('inactiveMenu', style({ opacity: 0, transform: 'translateY(0)' })),
-      transition('inactive => active', [
-        style({
-          opacity: 0,
-          transform: 'translateX(100%)'
-        }),
-        animate('0.5s ease-in')
-      ]),
-      transition('active => inactive', [
-        animate('0.5s ease-out', style({
-          opacity: 0,
-          transform: 'translateX(100%)'
-        }))
-      ]),
-      transition('active => inactiveMenu', [
-        animate('0.3s ease-out', style({
-          opacity: 0,
-          transform: 'translateY(100%)'
-        }))
-      ]),
-      transition('inactiveMenu => active', [
-        animate('0.3s', style({
-          opacity: 0,
-          transform: 'translateY(-100%)'
-        }))
-      ])
-    ]),
-    trigger('menuFlyIn', [
-      state('active', style({ opacity: 1, transform: 'translateX(0)' })),
-      state('inactive', style({ opacity: 0, transform: 'translateX(0)' })),
-      transition('inactive => active', [
-        style({
-          opacity: 0,
-          transform: 'translateX(-100%)'
-        }),
-        animate('0.3s ease-in')
-      ]),
-      transition('active => inactive', [
-        animate('0.3s ease-out', style({
-          opacity: 0,
-          transform: 'translateX(-100%)'
-        }))
-      ])
-    ]),
-    trigger('gameMenuFlyIn', [
-      state('active', style({ opacity: 1, transform: 'translateY(0)' })),
-      state('inactive', style({ opacity: 0, transform: 'translateY(0)' })),
-      state('inactiveMenu', style({ opacity: 0, transform: 'translateX(0)' })),
-      transition('* => active', [
-        style({
-          opacity: 0,
-          transform: 'translateY(-100%)'
-        }),
-        animate('0.5s ease-in')
-      ]),
-      transition('active => inactive', [
-        animate('0.1s ease-out', style({
-          opacity: 0,
-          transform: 'translateY(-100%)'
-        }))
-      ]),
-      transition('active => inactiveMenu', [
-        animate('0.5s ease-out', style({
-          opacity: 0,
-          transform: 'translateX(100%)'
-        }))
-      ])
-    ])
-  ]
+  animations: Animations
 })
 
 export class GameComponent implements OnInit {
@@ -114,6 +36,7 @@ export class GameComponent implements OnInit {
   maximumMems = 111;
   gameMenuEnabled = true;
   timeDisplay = 'block';
+  bestTimeDisplay = 'block';
 
   constructor(private userService: UserService, private router: Router) {
   }
@@ -174,8 +97,10 @@ export class GameComponent implements OnInit {
   }
 
   openGameMenu(showTime: boolean) {
+    this.currentMem = this.mems[this.currentMemIndex];
     if (showTime) {
       this.timeDisplay = 'block';
+      this.timerEnd();
     } else {
       this.timeDisplay = 'none';
     }
@@ -185,7 +110,6 @@ export class GameComponent implements OnInit {
     this.gameMenuState = 'active';
     this.gameZindex = 0;
     this.gameMenuZindex = 1;
-    this.timerEnd();
   }
 
   continueGame() {
@@ -212,7 +136,8 @@ export class GameComponent implements OnInit {
   timerStart() {
     this.lastDate = Date.now();
     if (this.turnForRandom) {
-      this.currentMemIndex = Math.floor(Math.random() * this.maximumMems);
+      /* this.currentMemIndex = Math.floor(Math.random() * this.maximumMems); */
+      this.currentMemIndex = this.mems.findIndex(x => x.number == '70');
     } else {
       this.currentMemIndex = 0;
     }
@@ -221,29 +146,30 @@ export class GameComponent implements OnInit {
   }
 
   async timerEnd() {
-    const lastTimeNum = Math.round(Date.now() - this.lastDate);
-    this.lastTime = this.timeToString(lastTimeNum);
-    this.currentMem = this.mems[this.currentMemIndex];
-    if (this.currentMem.lastTime == -1) {
+    this.currentMem.lastTime = Math.round(Date.now() - this.lastDate);
+    this.lastTime = this.timeToString(this.currentMem.lastTime);
+    if (this.currentMem.bestTime == -1) {
       this.memAmount++;
-      this.currentMem.bestTime = lastTimeNum;
+      this.currentMem.bestTime = this.currentMem.lastTime;
       this.bestTime = this.lastTime;
+      this.bestTimeDisplay = 'none';
     } else if (this.currentMem.lastTime < this.currentMem.bestTime) {
-      this.currentMem.bestTime = lastTimeNum;
+      this.bestTimeDisplay = 'block';
+      this.currentMem.bestTime = this.currentMem.lastTime;
       this.bestTime = this.lastTime;
     } else {
+      this.bestTimeDisplay = 'block';
       this.bestTime = this.timeToString(this.currentMem.bestTime);
     }
-    this.currentMem.lastTime = lastTimeNum;
-    this.averageLastTime = ((this.averageLastTime * (this.memAmount - 1)) + lastTimeNum) / this.memAmount; // still in progress
-    this.currentMem.index = Math.max(0, 9999999 - lastTimeNum);
+    this.averageLastTime = ((this.averageLastTime * (this.memAmount - 1)) + this.currentMem.lastTime) / this.memAmount; // still in progress
+    this.currentMem.index = Math.max(0, 9999999 - this.currentMem.lastTime);
     this.mems.splice(this.currentMemIndex, 1);
-    const index = this.bsSearch(this.mems, this.currentMem.index);
+    const index = this.bSearch(this.mems, this.currentMem.index);
     this.mems.splice(index, 0, this.currentMem);
     this.userService.depositMem(this.currentMem.index, this.currentMem.lastTime, this.currentMem.bestTime, this.currentMem.number);
   }
 
-  bsSearch(mems, memIndex) {
+  bSearch(mems, memIndex) {
     const indices = [];
     mems.forEach(mem => {
       indices.push(mem.index);

@@ -43,29 +43,42 @@
 .headline {
     font-size: 4rem;
     margin-bottom: 3rem;
+    line-height: 3rem;
+}
+
+.number-headline {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+    line-height: 2rem;
+    color: gray;
 }
 
 .last-time {
     color: rgb(207, 205, 205);
     font-size: 2rem;
-    margin-bottom: 0.5rem;
     line-height: 2rem;
+    margin-bottom: 0;
 }
 
 .last-time-span {
-    color: white;
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 .best-time {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    line-height: 2rem;
     color: gray;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+}
+
+.best-time-span {
+    font-size: 2rem;
 }
 
 .menu-buttons-container {
     justify-content: center;
     margin: auto;
+    margin-top: 1rem;
 }
 
 .mem-button-container {
@@ -117,6 +130,20 @@
     font-size: 1.5rem;
 }
 
+.mat-icon {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 32px;
+}
+
+.time-icon {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 24px;
+}
+
 @media screen and (min-width: 600px) {
     .mem-button {
        font-size: 12rem;
@@ -141,7 +168,7 @@
 
   @media screen and (max-height: 700px) {
     .game-menu-container {
-       margin-top: 1rem;
+       margin-top: 2rem;
     }
   }
 
