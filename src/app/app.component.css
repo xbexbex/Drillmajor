@@ -58,3 +58,9 @@
     text-align: justify;
     font-size: 1rem;
 }
+
+@media screen and (orientation: landscape) and (min-width: 550px) {
+    .sidenav-container {
+        max-width: 45rem;
+    }
+  }
