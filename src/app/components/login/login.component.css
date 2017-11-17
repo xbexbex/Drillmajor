@@ -1,46 +1,52 @@
 .login-container {
-    display: flex;
-    flex-direction: column;
-    padding: 5rem 1rem 5rem 1rem;
-    max-width: 30rem;
-    margin: auto;
-  }
-  
-  .login-container > * {
-    width: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 1rem 5rem 1rem;
+  max-width: 30rem;
+  margin: auto;
+}
 
-  .tab-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 3rem;
-    margin-bottom: 2rem;
-  }
+.login-container > * {
+  width: 100%;
+}
 
-  .tab-form > *{
-    width: 100%;
-  }
+.tab-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
 
-  .button-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+.tab-form > *{
+  width: 100%;
+}
 
-  .button-row > * {
-    width: 100%;
-  }
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .mat-form-field {
-    margin-top: 0.4rem;
-  }
+.button-row > * {
+  width: 100%;
+}
 
-  .login-button {
-    font-size: 1.4rem;
-  }
+.mat-form-field {
+  margin-top: 0.4rem;
+}
 
-  .big-error {
-    font-size: 1.2rem;
-    text-align: center;
+.login-button {
+  font-size: 1.4rem;
+}
+
+.big-error {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+@media screen and (max-height: 700px) {
+  .login-container {
+    padding-top: 1rem;
   }
+}

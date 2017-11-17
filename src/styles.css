@@ -5,6 +5,12 @@
     font-size: 1.4rem
 }
 
+.mat-sidenav-container {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    height: 100%;
+}
+
 .tab-form > * {
     width: 100%;
     font-size: 1.3rem;
@@ -14,10 +20,6 @@
     font-size: 1.3rem;
 }
 
-.mat-expansion-panel {
-}
-
-
 body {
     color: white;
     margin: 0;
@@ -26,6 +28,10 @@ body {
     flex-direction: column;
     height: 100vh;
     position: relative;
-    overflow: hidden;
+    overflowS: hidden;
     font-family: Roboto;
+}
+
+html {
+    overflow: hidden;
 }

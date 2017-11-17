@@ -1,4 +1,5 @@
 .game-container {
+    overflow:hidden;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -6,11 +7,14 @@
     position: absolute;
     margin-left: auto;
     margin-right: auto;
+    overflow: hidden;
     left: 0;
     right: 0;
+    height: 85vh;
 }
 
 .menu-container {
+    overflow:hidden;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -21,9 +25,11 @@
     margin-right: auto;
     left: 0;
     right: 0;
+    height: 85vh;
 }
 
 .game-menu-container {
+    overflow:hidden;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -34,6 +40,7 @@
     margin-right: auto;
     left: 0;
     right: 0;
+    height: 85vh;
 }
 
 .game-text-container {
@@ -146,32 +153,52 @@
 
 @media screen and (min-width: 600px) {
     .mem-button {
-       font-size: 12rem;
+        font-size: 12rem;
     }
-
+    
     .mem-button-container {
         height: 22rem;
         width: 22rem;
-     }
-  }
-
-  @media screen and (min-width: 800px) {
-    .mem-button {
-       font-size: 15rem;
     }
+}
 
+@media screen and (min-width: 800px) {
+    .mem-button {
+        font-size: 15rem;
+    }
+    
     .mem-button-container {
         height: 28rem;
         width: 28rem;
-     }
-  }
-
-  @media screen and (max-height: 700px) {
-    .game-menu-container {
-       margin-top: 2rem;
     }
-  }
+}
 
+@media screen and (max-height: 700px) {
+    .game-menu-container {
+        margin-top: 2rem;
+    }
+
+    .menu-container {
+        margin-top: 2rem;
+    }
+
+    .game-container {
+        margin-top: 1rem;
+    }
+
+    .mem-button {
+        font-size: 12rem;
+    }
+
+    .help-button-container {
+        margin-top: 0;
+    }
+    
+    .mem-button-container {
+        height: 22rem;
+        width: 22rem;
+    }
+}
 
 
 

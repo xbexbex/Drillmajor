@@ -136,8 +136,7 @@ export class GameComponent implements OnInit {
   timerStart() {
     this.lastDate = Date.now();
     if (this.turnForRandom) {
-      /* this.currentMemIndex = Math.floor(Math.random() * this.maximumMems); */
-      this.currentMemIndex = this.mems.findIndex(x => x.number == '70');
+      this.currentMemIndex = Math.floor(Math.random() * this.maximumMems);
     } else {
       this.currentMemIndex = 0;
     }

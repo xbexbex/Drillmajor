@@ -57,6 +57,8 @@ router.post('/login', async (req, res) => {
           const payload = rows[0].public_key;
           const token = jwt.sign(payload, jwtOptions.secretOrKey);
           res.status(200).json({ token: token });
+        } else {
+          res.status(201).json({ message: "Wrong username or password" });
         }
       } else {
         res.status(201).json({ message: "Wrong username or password" });
