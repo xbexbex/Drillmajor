@@ -1,9 +1,14 @@
 .login-container {
   display: flex;
   flex-direction: column;
-  padding: 5rem 1rem 5rem 1rem;
+  padding: 0 1rem 5rem 1rem;
   max-width: 30rem;
-  margin: auto;
+  position: absolute;
+  top: 6rem;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
 }
 
 .login-container > * {
@@ -47,6 +52,12 @@
 
 @media screen and (max-height: 700px) {
   .login-container {
-    padding-top: 1rem;
+    top: 4.1rem;
+  }
+}
+
+@media screen and (min-height: 512px) {
+  .login-container {
+    overflow:hidden;
   }
 }

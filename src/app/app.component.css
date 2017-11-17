@@ -1,79 +1,79 @@
 #main-container {
-    flex: 1;
-    min-height: 0;
-    width: 95vw;
-    height: 95vh;
-    justify-content: center;
-    overflow-x:hidden;
+  flex: 1;
+  min-height: 0;
+  width: 93vw;
+  height: 95vh;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #sidenav {
-    margin-bottom: 4rem;
+  margin-bottom: 4rem;
 }
 
 .title {
-    margin-left: 1.5rem;
+  margin-left: 1.5rem;
 }
 
 .open-button-container {
-    text-align: right;
-    max-width: 32rem;
-    margin: auto;
-    background-color: rgba(255, 255, 255, 0);
-
+  text-align: right;
+  max-width: 32rem;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .back-button-container {
-    display: flex;
-    text-align: right;
-    margin: auto;
-    justify-content: space-between;
+  display: flex;
+  text-align: right;
+  margin: auto;
+  justify-content: space-between;
 }
 
 .back-button {
-    display:inline-block;
-    cursor: pointer;
-    color: rgb(184, 184, 184);
-    margin-top: 0.8rem;
-    margin-bottom: 2rem;
-    margin-right: 0.8rem;
+  display: inline-block;
+  cursor: pointer;
+  color: rgb(184, 184, 184);
+  margin-top: 0.8rem;
+  margin-bottom: 2rem;
+  margin-right: 0.8rem;
 }
 
 .open-button {
-    display:inline-block;
-    cursor: pointer;
-    color: rgb(184, 184, 184);
-    margin-top: 0.8rem;
-    margin-right: 0.8rem;
+  display: inline-block;
+  cursor: pointer;
+  color: rgba(204, 203, 203, 0.685);
+  margin-top: 0.8rem;
+  margin-right: 0.8rem;
 }
 
 .open-button-icon {
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-    font-size: 32px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 32px;
 }
 
 .sidenav-container {
-    margin: auto;
-    max-width: 96vw;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    height: 100%;
+  margin: auto;
+  max-width: 85vw;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  height: 100%;
 }
 
 .expansion-text {
-    text-align: justify;
-    font-size: 1rem;
+  text-align: justify;
+  font-size: 1rem;
 }
 
 .app-root {
-    height: 100%;
-    margin-bottom: 0;
+  height: 100%;
+  margin-bottom: 0;
 }
 
 @media screen and (orientation: landscape) and (min-width: 550px) {
-    .sidenav-container {
-        max-width: 45rem;
-    }
+  .sidenav-container {
+    max-width: 45rem;
   }
+}

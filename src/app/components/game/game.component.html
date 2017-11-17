@@ -1,42 +1,44 @@
-<div [@gameFlyIn]="gameState" [ngStyle]="{ 'z-index': gameZindex }" class="game-container">
-  <div class="mem-button-container">
-    <button mat-fab color="primary" (click)="openGameMenu(true)" [disabled]="gameDisabled" class="mem-button">{{buttonNumber}}</button>
-  </div>
-  <div class="help-button-container">
-    <button (click)="openGameMenu(false)" [disabled]="gameDisabled" class="help-button" mat-button color="accent">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-  </div>
-</div>
-
-<div [@menuFlyIn]="menuState" [ngStyle]="{ 'z-index': menuZindex }" class="menu-container">
-  <div class="menu-buttons-container">
-    <button (click)="openGame()" class="menu-button" [disabled]="menuDisabled" mat-raised-button color="primary">Start game</button>
-    <button (click)="signOut()" class="menu-button" [disabled]="menuDisabled" mat-raised-button color="primary">Sign out</button>
-  </div>
-</div>
-
-<div [@gameMenuFlyIn]="gameMenuState" [ngStyle]="{ 'z-index': gameMenuZindex }" class="game-menu-container">
-  <div class="game-text-container">
-    <h2 class="number-headline">&nbsp;{{currentMem.number}}:</h2>
-    <h1 class="headline">{{currentMem.name}}</h1>
-    <div class="time-container" [ngStyle]="{ 'display': timeDisplay }">
-      <h1 class="last-time">
-        <mat-icon class="time-icon">timer</mat-icon>
-        <span class="last-time-span">{{lastTime}}</span>
-      </h1>
-      <h1 class="best-time" [ngStyle]="{ 'display': bestTimeDisplay }">
-        <mat-icon class="time-icon">star</mat-icon>
-        <span class="best-time-span">{{bestTime}}</span>
-      </h1>
+<div class="over-div">
+  <div [@gameFlyIn]="gameState" [ngStyle]="{ 'z-index': gameZindex }" class="game-container">
+    <div class="mem-button-container">
+      <button mat-fab color="primary" (click)="openGameMenu(true)" [disabled]="gameDisabled" class="mem-button">{{buttonNumber}}</button>
+    </div>
+    <div class="help-button-container">
+      <button (click)="openGameMenu(false)" [disabled]="gameDisabled" class="help-button" mat-button color="accent">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
     </div>
   </div>
-  <div class="menu-buttons-container">
-    <button (click)="continueGame()" class="menu-button" [disabled]="gameMenuDisabled" mat-raised-button color="primary">
+
+  <div [@menuFlyIn]="menuState" [ngStyle]="{ 'z-index': menuZindex }" class="menu-container">
+    <div class="menu-buttons-container">
+      <button (click)="openGame()" class="menu-button" [disabled]="menuDisabled" mat-raised-button color="primary">Start game</button>
+      <button (click)="signOut()" class="menu-button" [disabled]="menuDisabled" mat-raised-button color="primary">Sign out</button>
+    </div>
+  </div>
+
+  <div [@gameMenuFlyIn]="gameMenuState" [ngStyle]="{ 'z-index': gameMenuZindex }" class="game-menu-container">
+    <div class="game-text-container">
+      <h2 class="number-headline">&nbsp;{{currentMem.number}}:</h2>
+      <h1 class="headline">{{currentMem.name}}</h1>
+      <div class="time-container" [ngStyle]="{ 'display': timeDisplay }">
+        <h1 class="last-time">
+          <mat-icon class="time-icon">timer</mat-icon>
+          <span class="last-time-span">{{lastTime}}</span>
+        </h1>
+        <h1 class="best-time" [ngStyle]="{ 'display': bestTimeDisplay }">
+          <mat-icon class="time-icon">star</mat-icon>
+          <span class="best-time-span">{{bestTime}}</span>
+        </h1>
+      </div>
+    </div>
+    <div class="menu-buttons-container">
+      <button (click)="continueGame()" class="menu-button" [disabled]="gameMenuDisabled" mat-raised-button color="primary">
         <mat-icon>arrow_forward</mat-icon>
-    </button>
-    <button (click)="openMenu()" class="menu-exit-button" [disabled]="gameMenuDisabled" mat-button color="accent">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
+      </button>
+      <button (click)="openMenu()" class="menu-exit-button" [disabled]="gameMenuDisabled" mat-button color="accent">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
