@@ -4,7 +4,7 @@
     width: 95vw;
     height: 95vh;
     justify-content: center;
-    overflow:hidden;
+    overflow-x:hidden;
 }
 
 #sidenav {
@@ -19,6 +19,8 @@
     text-align: right;
     max-width: 32rem;
     margin: auto;
+    background-color: rgba(255, 255, 255, 0);
+
 }
 
 .back-button-container {

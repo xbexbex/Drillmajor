@@ -7,7 +7,6 @@
     position: absolute;
     margin-left: auto;
     margin-right: auto;
-    overflow: hidden;
     left: 0;
     right: 0;
     height: 85vh;
@@ -151,17 +150,6 @@
     font-size: 24px;
 }
 
-@media screen and (min-width: 600px) {
-    .mem-button {
-        font-size: 12rem;
-    }
-    
-    .mem-button-container {
-        height: 22rem;
-        width: 22rem;
-    }
-}
-
 @media screen and (min-width: 800px) {
     .mem-button {
         font-size: 15rem;
@@ -197,6 +185,17 @@
     .mem-button-container {
         height: 22rem;
         width: 22rem;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .mem-button {
+        font-size: 8rem;
+    }
+    
+    .mem-button-container {
+        height: 15rem;
+        width: 15rem;
     }
 }
 

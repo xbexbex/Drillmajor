@@ -41,6 +41,8 @@ export class GameComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {
   }
 
+  
+
   async ngOnInit() {
     const res = await this.userService.getMems();
     if (res === null) {
