@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { GameComponent } from './components/game/game.component';
-import { TestComponent } from './components/test/test.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,8 +25,7 @@ import {
   declarations: [
     AppComponent,
     LoginComponent,
-    GameComponent,
-    TestComponent
+    GameComponent
   ],
   imports: [
     BrowserModule,

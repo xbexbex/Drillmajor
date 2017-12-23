@@ -11,11 +11,6 @@ export class UserService {
     this.token = currentUser && currentUser.token;
   }
 
-  getUsers() {
-    return this.http.get('/users')
-      .map(res => res.json());
-  }
-
   signOut() {
     this.token = null;
     localStorage.removeItem('currentUser');
@@ -101,11 +96,5 @@ export class UserService {
       console.log(err);
     }
     return false;
-  }
-
-  async getTestAsync(): Promise<string> {
-    const response = await this.http.get('api/user/test').toPromise();
-    console.log(response.json().message);
-    return response.json().message;
   }
 }
