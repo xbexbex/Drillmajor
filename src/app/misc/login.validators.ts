@@ -16,7 +16,7 @@ export function checkPasswords(password: string, confirmPassword: string) {
 
 export function checkUsername(userService): ValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors> => {
-      return Observable.timer(500).switchMap(() => {
+      return Observable.timer(200).switchMap(() => {
         return userService.checkAvailable(control.value)
           .map(result => (result.available ? null : { alreadyTaken: true }));
       });
