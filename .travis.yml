@@ -2,32 +2,27 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - stable
-
-addons:
+- stable
+addons: 
 apt:
   sources:
-    - google-chrome
+  - google-chrome
   packages:
-    - google-chrome-stable
-    - google-chrome-beta
-
+  - google-chrome-stable
+  - google-chrome-beta
 before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-
+- export CHROME_BIN=chromium-browser
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 before_script:
 - npm install -g angular-cli
-
-script: 
-  - ng test --watch=false
-  - ng e2e
-
+script:
+- ng test --watch=false
+- ng e2e
 deploy:
   provider: heroku
   api_key:
-    secure: e1whXuB5BoVbnRWNGnXtqTi1Ax8CzdSw0dRqz0es11zxM12cbMJzV/md825h1m4AgaqLY76ASAWfkLQZ+Y/4+hKOXvLn7+cXPt6HzkBXsOMNTTtoD/QcA8/47cXsjvy+y3Znzw4fkXk093x/wv21qrOL8lVCB0ESpBRKbp3oPcU39E8LASa/TZ1SK/zAsBVPP+eDgyKoUYc4sjxKDk8bASUFsU8pIXMC4tyjWzRvv3d49s1ay1hp+MZjyeZIBAcADoFqIDNrzTOxWq48yGK4Dfc/I/2japa6NQcDoDVZJZx+hZ+Golmup7XA+eOb/SgKMCFUV7CEmv/+lhTWNMfevICpmWR011vC1h+2cTHfOAJbwuYHlpwZKrb7au4zd3tPRgwZCV1Fglm13n94Fs9OzaXZY6s5QtxlhA03sy8GTwEJG5pIcdCdXNfulolaliypRWr1hddg1YsJ1d0CelcV0SRGCwtSOWgqS0P/fXn6XeO9LUEnialTdnhawlX6jYpOEkqedEsWD4lfNhybU8eIF3NnhQPKVO/aXUkzS7aL1tl6Pi332tGzcYbawJrL4DxmsONFucXOJVZMh/iOlMUHMuxCV23IZUJ44lPnKnFxFU+UnDcGDcTYn5bEZ5QX6IHcB46TxUs9dBfEWwuImpbuzwUjM8dVZiHz5A5rAd0dWDE=
+    secure: iQm0OizrrZD2yBNwkyU2b/p/OZ0LvwBfgoyY7/CaOqb6jH8LQA5ax7bZa5E0MbXLGo7lLEhG8X+rsWLBkfoicTJa+GJJZPUC/C3x810KK34bQgJT/2qYwGcmZlwu17zDhmzbIr+CPTc+luT2GKYi5W4v7+mAxnke0YACkZoRnNe/K22uq5Mkytaz8LHzbmXi/CxCLixfHt2o2seQn0p4QI0F3xSt919u4qEtfWIFafNu4Ny1KM6s/mpv5eHCu0IzBpylhd4OQFb62myuw5bf/CkwHh/eswsvUEI5n+N2J3P3m6SUy17kpU3I2z3otqifyXvG5kUYwrVxUi/GtyHP4/e45rJQq+3uGhSmRdjssBC0cJ6SGsdrETS9J7KrMJ+Pfhx1mZM17TDI3u1lJwV8050nygf+/BX8wmbf8RCzmRzE+xbG5VZVxs79LrnVpVDQ9EMQCAnf7sG3gwXQZekSvz/SUiT4XwBL0jn3oNSqgoZSVKA1hwEpBt5sI+hlSbAgFaeNlqHwF9tPA73eCHW1gUeCBUo00U9R8nCgnKStIdOxLKoczXuNst6T0zKq6PLJTxIO6ywkpOSlJQj7sxkizjjOBKr1p8pc2f2IEaai4AGnmzQzGmiZmNsOi2BxpbM/2ok/m0onpY95BXUaYSm9o/mlUH4iE1Deo9TIwHFox2s=
   app: drillmajor
   on:
     repo: xbexbex/Drillmajor
