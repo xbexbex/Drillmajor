@@ -19,7 +19,6 @@ before_install:
 
 before_script:
 - npm install -g angular-cli
-- npm install
 
 script: 
   - ng test --watch=false
