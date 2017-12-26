@@ -22,8 +22,6 @@ Requires Node.js and Angular 5 cli
 * Use development branch for commits. Master branch commits will automatically be deployed to Heroku.
 
 ### Techstack
-* Node.js
-* Angular 5
+* Node.js with Express (Promise)
+* Angular 5 with Material 2
 * PostgreSQL
-* Express (Promise)
-* Material 2
