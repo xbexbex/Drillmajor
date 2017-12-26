@@ -19,7 +19,7 @@ A game for learning the *[mnemonic major system](https://en.wikipedia.org/wiki/M
 Requires Node.js and Angular 5 cli
 * Clone the repository and run "npm install"
 * For live development, run "ng build --watch" and "nodemon serve"
-* Use development branch for commits. Master branch commits will automatically be deployed to Heroku.
+* Use the development branch for commits. Master branch commits will automatically be deployed to Heroku.
 
 ### Techstack
 * Node.js with Express (Promise)
