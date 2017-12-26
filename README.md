@@ -25,5 +25,5 @@ Requires Node.js and Angular 5 cli
 * Node.js
 * Angular 5
 * PostgreSQL
-* Express
+* Express (Promise)
 * Material 2
