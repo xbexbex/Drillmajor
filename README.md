@@ -21,3 +21,9 @@ Requires Node.js and Angular 5 cli
 * For live development, run "ng build --watch" and "nodemon serve"
 * Use development branch for commits. Master branch commits will automatically be deployed to Heroku.
 
+### Techstack
+* Node.js
+* Angular 5
+* PostgreSQL
+* Express
+* Material 2
